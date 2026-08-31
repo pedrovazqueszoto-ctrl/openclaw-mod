@@ -1,5 +1,5 @@
 {
-  "originHash" : "7a8088405ec5e396c14d737c110ff5651ff25dabcd437a0fee92e57018c5360a",
+  "originHash" : "3b8ed8f8b27a197aca62b49e56fb764714ca70a6af7e1e832f8ba94261c626e1",
   "pins" : [
     {
       "identity" : "axorcist",
@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-subprocess.git",
       "state" : {
-        "revision" : "13d087685b95d64d6aac9b94500d347bbe84c39b",
-        "version" : "0.4.0"
+        "revision" : "b3937ab85dd32f6e9435914599c1519074769c1a",
+        "version" : "1.0.0"
       }
     },
     {
