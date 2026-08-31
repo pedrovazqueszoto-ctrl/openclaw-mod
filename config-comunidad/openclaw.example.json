@@ -1,0 +1,194 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "C:\\Users\\TU_USUARIO\\.openclaw\\workspace",
+      "model": {
+        "primary": "openrouter/qwen/qwen3-8b",
+        "fallbacks": [
+          "groq/qwen/qwen3.8-27b"
+        ]
+      },
+      "timeoutSeconds": 3600,
+      "compaction": {
+        "reserveTokens": 1024,
+        "reserveTokensFloor": 0
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "default": true,
+        "name": "Main Agent",
+        "workspace": "C:\\Users\\TU_USUARIO\\.openclaw\\workspace",
+        "sandbox": {
+          "mode": "off"
+        }
+      },
+      {
+        "id": "peru-conet",
+        "name": "Peru Conet - Bug Bounty",
+        "workspace": "C:\\Users\\TU_USUARIO\\.openclaw\\workspace-peru-conet",
+        "model": {
+          "primary": "openrouter/minimax/minimax-m3:free",
+          "fallbacks": [
+            "openrouter/minimax/minimax-m3"
+          ]
+        },
+        "skills": [
+          "bug-bounty-agent",
+          "recon-agent",
+          "enum-agent",
+          "scanner-agent",
+          "pentest-reporter",
+          "pentest-scope"
+        ],
+        "tools": {
+          "alsoAllow": [
+            "browser"
+          ],
+          "sandbox": {
+            "tools": {
+              "alsoAllow": [
+                "web_fetch",
+                "web_search",
+                "browser"
+              ],
+              "deny": []
+            }
+          }
+        },
+        "sandbox": {
+          "mode": "all",
+          "backend": "docker",
+          "scope": "agent",
+          "workspaceAccess": "rw",
+          "docker": {
+            "image": "openclaw-sandbox-pentest:bookworm-slim",
+            "network": "bridge",
+            "user": "0:0",
+            "readOnlyRoot": false,
+            "capDrop": []
+          }
+        }
+      }
+    ]
+  },
+  "env": {
+    "GROQ_API_KEY": "gsk_TU_GROQ_API_KEY_AQUI",
+    "OPENROUTER_API_KEY": "sk-or-v1-TU_OPENROUTER_API_KEY_AQUI"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "groq": {
+        "api": "openai-completions",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "apiKey": "${GROQ_API_KEY}",
+        "models": [
+          {
+            "id": "qwen/qwen3.8-27b",
+            "name": "Qwen 3.8 27B (Groq)",
+            "input": [
+              "text"
+            ],
+            "reasoning": false,
+            "contextWindow": 131072,
+            "maxTokens": 8192,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            }
+          }
+        ]
+      },
+      "openrouter": {
+        "api": "openai-completions",
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "apiKey": "${OPENROUTER_API_KEY}",
+        "models": [
+          {
+            "id": "minimax/minimax-m3:free",
+            "name": "MiniMax M3 (Free)",
+            "input": [
+              "text"
+            ],
+            "reasoning": false,
+            "contextWindow": 1048576,
+            "maxTokens": 8192,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            }
+          },
+          {
+            "id": "minimax/minimax-m3",
+            "name": "MiniMax M3",
+            "input": [
+              "text"
+            ],
+            "reasoning": false,
+            "contextWindow": 1048576,
+            "maxTokens": 8192,
+            "cost": {
+              "input": 0.0003,
+              "output": 0.0012,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            }
+          }
+        ]
+      }
+    }
+  },
+  "diagnostics": {
+    "stuckSessionAbortMs": 1800000
+  },
+  "skills": {
+    "limits": {
+      "maxSkillsPromptChars": 2500
+    },
+    "load": {
+      "extraDirs": [
+        "D:\\10h\\skills"
+      ]
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "TU_TOKEN_GATEWAY_GENERA_UNO_NUEVO"
+    },
+    "port": 18789,
+    "bind": "loopback",
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "provider": "duckduckgo"
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "ollama": {
+        "enabled": false
+      },
+      "openrouter": {
+        "enabled": true
+      }
+    }
+  }
+}
